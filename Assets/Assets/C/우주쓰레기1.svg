@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="_레이어_2" data-name="레이어 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 115.49 108.91">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+      }
+
+      .cls-2 {
+        fill: #997500;
+      }
+    </style>
+  </defs>
+  <g id="_우주쓰레기1" data-name="우주쓰레기1">
+    <g>
+      <polygon class="cls-1" points="57.54 25.04 57.96 25.41 68.72 44.94 86.52 50.44 86.94 50.81 74.96 72.29 57.95 83.87 28.56 58.1 32.74 41.64 57.54 25.04"/>
+      <g>
+        <polygon class="cls-2" points="15 15.95 28.98 0 57.54 25.03 43.55 40.98 37.81 36.63 18.74 19.59 15 15.95"/>
+        <rect class="cls-1" x="28.59" y="9.79" width=".83" height="37.97" transform="translate(-11.77 31.4) rotate(-48.46)"/>
+      </g>
+      <g>
+        <polygon class="cls-2" points=".54 32.44 14.53 16.49 43.09 41.52 29.1 57.47 23.36 53.12 4.28 36.08 .54 32.44"/>
+        <rect class="cls-1" x="14.14" y="26.28" width=".83" height="37.97" transform="translate(-29.1 26.41) rotate(-48.81)"/>
+      </g>
+      <g>
+        <polygon class="cls-2" points="72.95 66.76 86.94 50.81 115.49 75.84 101.51 91.79 95.76 87.43 76.69 70.4 72.95 66.76"/>
+        <polygon class="cls-1" points="72.4 67.39 72.95 66.76 101.51 91.79 100.97 92.42 72.4 67.39"/>
+      </g>
+      <g>
+        <polygon class="cls-2" points="58.5 83.25 72.48 67.3 101.04 92.33 87.05 108.29 81.31 103.93 62.24 86.89 58.5 83.25"/>
+        <rect class="cls-1" x="72.09" y="77.09" width=".83" height="37.98" transform="translate(-47.54 87.25) rotate(-48.75)"/>
+      </g>
+      <g>
+        <polygon class="cls-2" points="43.98 41.36 57.96 25.41 86.52 50.44 72.53 66.39 66.79 62.03 47.72 44.99 43.98 41.36"/>
+        <rect class="cls-1" x="57.57" y="35.2" width=".82" height="37.97" transform="translate(-20.98 62.13) rotate(-48.8)"/>
+      </g>
+      <g>
+        <polygon class="cls-2" points="29.52 57.85 43.51 41.89 72.06 66.93 58.08 82.88 52.34 78.52 33.26 61.48 29.52 57.85"/>
+        <polygon class="cls-1" points="28.98 58.47 29.52 57.85 58.08 82.88 57.54 83.5 28.98 58.47"/>
+      </g>
+    </g>
+  </g>
+</svg>

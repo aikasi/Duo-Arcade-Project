@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a467ae255d4644786fd9ab37c29857, type: 3}
+  m_Name: OceanTheme
+  m_EditorClassIdentifier: Assembly-CSharp::WorldThemeSO
+  worldName: 
+  enemyPrefabs:
+  - {fileID: 2959051551694595123, guid: e8d06622edb18ef439476ce13398c8ad, type: 3}
+  - {fileID: 2959051551694595123, guid: 19c19358ba7680f408eec51b0af78277, type: 3}
+  - {fileID: 2959051551694595123, guid: e0c1eaf739499534885409600869a902, type: 3}
+  - {fileID: 2959051551694595123, guid: 5efb691ad421c9a42b532ed54569da5a, type: 3}
+  trapEnemyPrefabs:
+  - {fileID: 2959051551694595123, guid: ea3717cc50954e245817da27ed4a6c04, type: 3}
+  - {fileID: 2959051551694595123, guid: c427e7d95129f5f42a6291c04ba94c53, type: 3}
+  bulletPrefab: {fileID: 8855298395649610194, guid: ccf51121eb5dc3842a097575f8493152, type: 3}

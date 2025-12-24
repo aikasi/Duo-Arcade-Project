@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a467ae255d4644786fd9ab37c29857, type: 3}
+  m_Name: BodyTheme
+  m_EditorClassIdentifier: Assembly-CSharp::WorldThemeSO
+  worldName: 
+  enemyPrefabs:
+  - {fileID: 2959051551694595123, guid: 9427a00f798100941a4f4f2ad42e97f2, type: 3}
+  trapEnemyPrefabs:
+  - {fileID: 2959051551694595123, guid: f31c7737097121f488f421edc8337ef6, type: 3}
+  bulletPrefab: {fileID: 8855298395649610194, guid: d1885ad08d59abd45a0869daedfc6280, type: 3}
