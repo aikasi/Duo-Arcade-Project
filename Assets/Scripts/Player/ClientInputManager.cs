@@ -9,8 +9,12 @@ public class ClientInputManager : MonoBehaviour
 
     // UI 연결
     public Button fireButton;
-    public GameObject leftBtnObj;
-    public GameObject rightBtnObj;
+    public GameObject leftInputObj;
+    public GameObject rightInputObj;
+
+    // 스프라이트 바뀔 이미지
+    public Image leftVisualImage;     // 실제로 이미지가 바뀔 대상
+    public Image rightVisualImage;    // 실제로 이미지가 바뀔 대상
 
     // 이미지 리소스
     public Sprite imgFireNormal;    // 발사 - 평소
@@ -24,8 +28,6 @@ public class ClientInputManager : MonoBehaviour
 
     // 내부 변수 (이미지 캐싱)
     private Image imgCompFire;
-    private Image imgCompLeft;
-    private Image imgCompRight;
 
     // 상태 변수
     private bool isLeftPressed = false;
@@ -36,32 +38,41 @@ public class ClientInputManager : MonoBehaviour
     private PlayerGunController localPlayer;
     private PlayerStateManager playerState;
 
+    //결과 화면 지연 처리
+    private const float RESULT_DELAY_TIME = 4.5f; // ClientResultUI와 같은 시간
+    private bool isResultDelayActive = false;     // 4.5초 동안 UI 유지
+    private GameState lastState = GameState.StandBy; 
+
     void Start()
     { 
         if (fireButton) imgCompFire = fireButton.GetComponent<Image>();
-        if (leftBtnObj) imgCompLeft = leftBtnObj.GetComponent<Image>();
-        if (rightBtnObj) imgCompRight = rightBtnObj.GetComponent<Image>();
+        if (imgCompFire && imgFireNormal) imgCompFire.sprite = imgFireNormal;
+        if (fireButton) fireButton.onClick.AddListener(OnFireClicked);
 
         // 초기 이미지 설정
-        if (imgCompFire && imgFireNormal) imgCompFire.sprite = imgFireNormal;
-        if (imgCompLeft && imgLeftNormal) imgCompLeft.sprite = imgLeftNormal;
-        if (imgCompRight && imgRightNormal) imgCompRight.sprite = imgRightNormal;
+        if (leftVisualImage && imgLeftNormal) 
+            leftVisualImage.sprite = imgLeftNormal;
 
-        // 발사 버튼 이벤트 리스너 등록
-        if (fireButton)
+        if (leftInputObj)
         {
-            fireButton.onClick.AddListener(OnFireClicked);
+            OnHoldPressClicked(leftInputObj, (isPressed) =>
+            {
+                isLeftPressed = isPressed;
+                UpdateBtnVisual(leftVisualImage, isPressed ? imgLeftPressed : imgLeftNormal);
+            });
         }
 
-        // 좌우 버튼 이벤트 리스너 등록
-        OnHoldPressClicked(leftBtnObj, (isPressed) => {
-            isLeftPressed = isPressed;
-            UpdateBtnVisual(imgCompLeft, isPressed ? imgLeftPressed : imgLeftNormal);
-        });
-        OnHoldPressClicked(rightBtnObj, (isPressed) => {
-            isRightPressed = isPressed;
-            UpdateBtnVisual(imgCompRight, isPressed ? imgRightPressed : imgRightNormal);
-        });
+
+        if (rightVisualImage && imgRightNormal)
+            rightVisualImage.sprite = imgRightNormal;
+
+        if (rightInputObj)
+        {
+            OnHoldPressClicked(rightInputObj, (isPressed) => {
+                isRightPressed = isPressed;
+                UpdateBtnVisual(rightVisualImage, isPressed ? imgRightPressed : imgRightNormal);
+            });
+        }
 
     }
 
@@ -88,8 +99,23 @@ public class ClientInputManager : MonoBehaviour
         }
 
         GameState currentState = playerState.CurrentState.Value;
-        bool shouldShow = (currentState == GameState.Tutorial || currentState == GameState.Playing);
+        
+        if (currentState != lastState)
+        {
+            if (currentState == GameState.Result)
+            {
+                StartCoroutine(KeepControlsRoutine());
+            }
+            else
+            {
+                isResultDelayActive = false;
+            }
+            lastState = currentState;
+        }
 
+        bool shouldShow = (currentState == GameState.Tutorial || currentState == GameState.Playing)
+                           || (currentState == GameState.Result && isResultDelayActive);
+        
         if (gameControlPanel != null && gameControlPanel.activeSelf != shouldShow)
         {
             gameControlPanel.SetActive(shouldShow);
@@ -127,6 +153,14 @@ public class ClientInputManager : MonoBehaviour
             //쿨타임
             StartCoroutine(FireCooldownRoutine());
         }
+    }
+
+    // 4.5초간 조작 UI 유지 
+    IEnumerator KeepControlsRoutine()
+    {
+        isResultDelayActive = true;
+        yield return new WaitForSeconds(RESULT_DELAY_TIME);
+        isResultDelayActive = false;
     }
 
     // 0.5초 쿨타임

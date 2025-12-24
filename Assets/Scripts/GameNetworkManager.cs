@@ -18,7 +18,7 @@ public class GameNetworkManager : MonoBehaviour
 
     private void Start()
     {
-#if UNITY_SERVER || UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
         SetupServer();
 #endif
     }

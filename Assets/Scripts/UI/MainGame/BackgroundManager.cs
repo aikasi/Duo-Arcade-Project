@@ -32,46 +32,74 @@ public class BackgroundManager : MonoBehaviour
     {
         if (NetworkManager.Singleton == null || !NetworkManager.Singleton.IsServer) return;
 
+        // 플레이어 체크
+        bool isLeftFound = false;
+        bool isRightFound = false;
+
         // 플레이어 중 한 명이라도 Playing 상태면 시작
         foreach (var player in FindObjectsByType<PlayerStateManager>(FindObjectsSortMode.None))
             {
                 string role = player.MyRole.Value.ToString();
-                bool isPlaying = (player.CurrentState.Value == GameState.Playing);
-                bool isStandBy = (player.CurrentState.Value == GameState.StandBy);
-            
-                // 대기 상태 변수 초기화
-                if (isStandBy)
-            {
-                if (role == "Left") leftSet.isChanged = false;
-                else if (role == "Right") rightSet.isChanged = false;
-                continue;
-            }
+                
+
 
                 if (role == "Left")
                 {
-                    if (isPlaying && !leftSet.isChanged)
-                    {
-                        StartCoroutine(ChangeRoutine(leftSet, player.SelectedWorldId.Value));
-                    }
-                    else if (!isPlaying && leftSet.isChanged)
-                    {
-                    // 결과 때 필요하면 배경 초기화 가능
-                    leftSet.background.SetActive(true);
-                    }
+                isLeftFound = true;
+                ProcessPlayerBackground(leftSet, player);
                 }
                 else if (role == "Right")
                 {
-                    if (isPlaying && !rightSet.isChanged)
-                    {
-                        StartCoroutine(ChangeRoutine(rightSet, player.SelectedWorldId.Value));
-                    }
-                    else if (!isPlaying && rightSet.isChanged)
-                    {
-                        rightSet.background.SetActive(true);
-                    }
+                isRightFound = true;
+                    ProcessPlayerBackground(rightSet, player);
                 }
             }
+
+
+        if (!isLeftFound) ForceReset(leftSet);
+        if (!isRightFound) ForceReset(rightSet);
+    }
+
+    void ProcessPlayerBackground(PlayerBG bgSet, PlayerStateManager player)
+    {
+        bool isPlaying = (player.CurrentState.Value == GameState.Playing);
+        bool isStandBy = (player.CurrentState.Value == GameState.StandBy);
+
+        if (isStandBy)
+        {
+            if (bgSet.isChanged || (bgSet.gameVideoPlayer != null && bgSet.gameVideoPlayer.isPlaying))
+            {
+                ForceReset(bgSet);
+            }
+        }
+
+        if ((isPlaying && !bgSet.isChanged))
+        {
+            StartCoroutine(ChangeRoutine(bgSet, player.SelectedWorldId.Value));
+        }
+    }
+
+    void ForceReset(PlayerBG bgSet)
+    {
+        if (!bgSet.isChanged && (bgSet.gameVideoPlayer == null || !bgSet.gameVideoPlayer.gameObject.activeSelf))
+        {
+            return;
+        }
+
+        bgSet.isChanged = false;
         
+        // 비디오 off
+        if (bgSet.gameVideoPlayer != null)
+        {
+            bgSet.gameVideoPlayer.Stop();
+            bgSet.gameVideoPlayer.gameObject.SetActive(false);
+        }
+
+        // 기본 배경 복구
+        if(bgSet.defaultBackground != null) bgSet.defaultBackground.SetActive(true);
+        if(bgSet.background != null) bgSet.background.SetActive(true);
+
+        if (bgSet.swirlEffectObject != null) bgSet.swirlEffectObject.SetActive(false);
     }
 
     IEnumerator ChangeRoutine(PlayerBG bgSet, int worldId)

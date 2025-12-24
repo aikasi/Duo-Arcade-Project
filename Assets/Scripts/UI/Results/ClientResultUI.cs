@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,12 @@ public class ClientResultUI : MonoBehaviour
 
     private PlayerStateManager localPlayer;
 
+    // 연출시간 지연
+    private Coroutine showRoutine;
+    private bool isResultVisible = false;
+
+    private const float SERVER_DELAY_TIME = 4.5f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,6 +23,8 @@ public class ClientResultUI : MonoBehaviour
         {
             btnNext.onClick.AddListener(OnNExtClicked);
         }
+
+        if(resultPanel != null) resultPanel.SetActive(false);
     }
 
     // Update is called once per frame
@@ -29,10 +38,47 @@ public class ClientResultUI : MonoBehaviour
 
         bool isResultState = (localPlayer.CurrentState.Value == GameState.Result);
 
-        if (resultPanel != null && resultPanel.activeSelf != isResultState)
+        if (isResultState && !isResultVisible)
         {
-            resultPanel.SetActive(isResultState);
+            if (showRoutine == null)
+            {
+                showRoutine = StartCoroutine(ShowResultWithDelay());
+            }
         }
+
+        else if (!isResultState && isResultVisible)
+        {
+            HideResultImmediately();
+        }
+    }
+
+    IEnumerator ShowResultWithDelay()
+    {
+        yield return new WaitForSeconds(SERVER_DELAY_TIME);
+
+        // 패널 활성화
+        if (resultPanel != null)
+        {
+            resultPanel.SetActive(true);
+        }
+
+        isResultVisible = true;
+        showRoutine = null;
+    }
+
+    void HideResultImmediately()
+    {
+        if (showRoutine != null)
+        {
+            StopCoroutine(showRoutine);
+            showRoutine = null;
+        }
+
+        if (resultPanel != null)
+        {
+            resultPanel.SetActive(false);
+        }
+        isResultVisible = false;
     }
 
     void OnNExtClicked()
