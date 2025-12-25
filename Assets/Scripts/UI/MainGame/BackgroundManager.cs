@@ -139,6 +139,7 @@ public class BackgroundManager : MonoBehaviour
     // 게임 종료시 호출할 함수
     public void PlayEndEffect(string role)
     {
+        Debug.Log($"{role} 배경 종료 시작");
         if (role == "Left") StartCoroutine(ResetRoutine(leftSet));
         else if (role =="Right") StartCoroutine(ResetRoutine(rightSet));
     }
@@ -158,6 +159,7 @@ public class BackgroundManager : MonoBehaviour
 
         // 배경 복구
         if(bgSet.defaultBackground) bgSet.defaultBackground.SetActive(true);
+        if(bgSet.background) bgSet.background.SetActive(true);
 
         // 이펙트 종료
         yield return new WaitForSeconds(0.5f) ;
